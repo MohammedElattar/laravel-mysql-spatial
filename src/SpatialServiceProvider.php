@@ -1,17 +1,17 @@
 <?php
 
-namespace Grimzy\LaravelMysqlSpatial;
+namespace Elattar\LaravelMysqlSpatial;
 
 use Doctrine\DBAL\Types\Type as DoctrineType;
-use Grimzy\LaravelMysqlSpatial\Connectors\ConnectionFactory;
-use Grimzy\LaravelMysqlSpatial\Doctrine\Geometry;
-use Grimzy\LaravelMysqlSpatial\Doctrine\GeometryCollection;
-use Grimzy\LaravelMysqlSpatial\Doctrine\LineString;
-use Grimzy\LaravelMysqlSpatial\Doctrine\MultiLineString;
-use Grimzy\LaravelMysqlSpatial\Doctrine\MultiPoint;
-use Grimzy\LaravelMysqlSpatial\Doctrine\MultiPolygon;
-use Grimzy\LaravelMysqlSpatial\Doctrine\Point;
-use Grimzy\LaravelMysqlSpatial\Doctrine\Polygon;
+use Elattar\LaravelMysqlSpatial\Connectors\ConnectionFactory;
+use Elattar\LaravelMysqlSpatial\Doctrine\Geometry;
+use Elattar\LaravelMysqlSpatial\Doctrine\GeometryCollection;
+use Elattar\LaravelMysqlSpatial\Doctrine\LineString;
+use Elattar\LaravelMysqlSpatial\Doctrine\MultiLineString;
+use Elattar\LaravelMysqlSpatial\Doctrine\MultiPoint;
+use Elattar\LaravelMysqlSpatial\Doctrine\MultiPolygon;
+use Elattar\LaravelMysqlSpatial\Doctrine\Point;
+use Elattar\LaravelMysqlSpatial\Doctrine\Polygon;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\DatabaseServiceProvider;
 
@@ -27,36 +27,35 @@ class SpatialServiceProvider extends DatabaseServiceProvider
      */
     public function register()
     {
-        // The connection factory is used to create the actual connection instances on
-        // the database. We will inject the factory into the manager so that it may
-        // make the connections while they are actually needed and not of before.
-        $this->app->singleton('db.factory', fn ($app) => new ConnectionFactory($app));
+
+        // No need to register the Connection Factory, cause laravel already support geometry, geography types
+//        $this->app->singleton('db.factory', fn ($app) => new ConnectionFactory($app));
 
         // The database manager is used to resolve various connections, since multiple
         // connections might be managed. It also implements the connection resolver
         // interface which may be used by other components requiring connections.
-        $this->app->singleton('db', fn ($app) => new DatabaseManager($app, $app['db.factory']));
+//        $this->app->singleton('db', fn ($app) => new DatabaseManager($app, $app['db.factory']));
 
-        $this->app->bind('db.schema', fn ($app) => $app['db']->connection()->getSchemaBuilder());
+//        $this->app->bind('db.schema', fn ($app) => $app['db']->connection()->getSchemaBuilder());
 
-        if (class_exists(DoctrineType::class)) {
+//        if (class_exists(DoctrineType::class)) {
             // Prevent geometry type fields from throwing a 'type not found' error when changing them
-            $geometries = [
-                'geometry'           => Geometry::class,
-                'point'              => Point::class,
-                'linestring'         => LineString::class,
-                'polygon'            => Polygon::class,
-                'multipoint'         => MultiPoint::class,
-                'multilinestring'    => MultiLineString::class,
-                'multipolygon'       => MultiPolygon::class,
-                'geometrycollection' => GeometryCollection::class,
-            ];
-            $typeNames = array_keys(DoctrineType::getTypesMap());
-            foreach ($geometries as $type => $class) {
-                if (!in_array($type, $typeNames)) {
-                    DoctrineType::addType($type, $class);
-                }
-            }
-        }
+//            $geometries = [
+//                'geometry'           => Geometry::class,
+//                'point'              => Point::class,
+//                'linestring'         => LineString::class,
+//                'polygon'            => Polygon::class,
+//                'multipoint'         => MultiPoint::class,
+//                'multilinestring'    => MultiLineString::class,
+//                'multipolygon'       => MultiPolygon::class,
+//                'geometrycollection' => GeometryCollection::class,
+//            ];
+//            $typeNames = array_keys(DoctrineType::getTypesMap());
+//            foreach ($geometries as $type => $class) {
+//                if (!in_array($type, $typeNames)) {
+//                    DoctrineType::addType($type, $class);
+//                }
+//            }
+//        }
     }
 }

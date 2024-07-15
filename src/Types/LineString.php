@@ -1,10 +1,10 @@
 <?php
 
-namespace Grimzy\LaravelMysqlSpatial\Types;
+namespace Elattar\LaravelMysqlSpatial\Types;
 
 use GeoJson\GeoJson;
 use GeoJson\Geometry\LineString as GeoJsonLineString;
-use Grimzy\LaravelMysqlSpatial\Exceptions\InvalidGeoJsonException;
+use Elattar\LaravelMysqlSpatial\Exceptions\InvalidGeoJsonException;
 
 class LineString extends PointCollection
 {
