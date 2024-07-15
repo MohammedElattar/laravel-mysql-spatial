@@ -49,6 +49,5 @@
                 "Elattar\\LaravelMysqlSpatial\\SpatialServiceProvider"
             ]
         }
-    },
-    "version": "5"
+    }
 }
